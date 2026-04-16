@@ -57,46 +57,8 @@ calculator-app/
 
 ---
 
-### Option 2: Netlify (Free, Drag & Drop)
-1. Go to [netlify.com](https://netlify.com) and sign up
-2. Click **Add New Site → Deploy Manually**
-3. Drag and drop the entire `calculator-app/` folder
-4. Your app is live instantly with a public URL!
 
----
 
-### Option 3: AWS S3 Static Website
-1. Log in to AWS Console → S3 → **Create Bucket**
-2. Uncheck "Block all public access"
-3. Upload all 4 files to the bucket
-4. Go to **Properties → Static website hosting** → Enable
-5. Set `index.html` as the index document
-6. Go to **Permissions → Bucket Policy**, add:
-   ```json
-   {
-     "Version": "2012-10-17",
-     "Statement": [{
-       "Effect": "Allow",
-       "Principal": "*",
-       "Action": "s3:GetObject",
-       "Resource": "arn:aws:s3:::YOUR-BUCKET-NAME/*"
-     }]
-   }
-   ```
-7. Access via the S3 website endpoint URL
-
----
-
-### Option 4: Google Cloud Storage
-1. Open GCP Console → Cloud Storage → **Create Bucket**
-2. Choose a unique name, set region
-3. Upload all 4 files
-4. Go to **Permissions → Grant Access** → add `allUsers` with `Storage Object Viewer`
-5. Click the 3-dot menu on the bucket → **Edit website configuration**
-6. Set `index.html` as the main page
-7. Access via: `https://storage.googleapis.com/YOUR-BUCKET-NAME/index.html`
-
----
 
 ### Option 5: Vercel (Free, CLI or GitHub)
 ```bash
