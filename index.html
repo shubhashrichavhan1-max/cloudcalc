@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CloudCalc — Web Calculator</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <header>
+    <div class="logo">☁ CloudCalc</div>
+    <div class="tagline">Hosted on the Cloud · Built for the Web</div>
+  </header>
+
+  <main>
+    <div class="calculator" id="calculator">
+      <div class="display-wrapper">
+        <div class="expression" id="expression"></div>
+        <div class="display" id="display">0</div>
+        <div class="history-label" id="history-label"></div>
+      </div>
+
+      <div class="buttons">
+        <!-- Row 1 -->
+        <button class="btn btn-func" data-action="clear">AC</button>
+        <button class="btn btn-func" data-action="negate">+/−</button>
+        <button class="btn btn-func" data-action="percent">%</button>
+        <button class="btn btn-op" data-action="divide">÷</button>
+
+        <!-- Row 2 -->
+        <button class="btn btn-num" data-action="num" data-value="7">7</button>
+        <button class="btn btn-num" data-action="num" data-value="8">8</button>
+        <button class="btn btn-num" data-action="num" data-value="9">9</button>
+        <button class="btn btn-op" data-action="multiply">×</button>
+
+        <!-- Row 3 -->
+        <button class="btn btn-num" data-action="num" data-value="4">4</button>
+        <button class="btn btn-num" data-action="num" data-value="5">5</button>
+        <button class="btn btn-num" data-action="num" data-value="6">6</button>
+        <button class="btn btn-op" data-action="subtract">−</button>
+
+        <!-- Row 4 -->
+        <button class="btn btn-num" data-action="num" data-value="1">1</button>
+        <button class="btn btn-num" data-action="num" data-value="2">2</button>
+        <button class="btn btn-num" data-action="num" data-value="3">3</button>
+        <button class="btn btn-op" data-action="add">+</button>
+
+        <!-- Row 5 -->
+        <button class="btn btn-num btn-wide" data-action="num" data-value="0">0</button>
+        <button class="btn btn-num" data-action="decimal">.</button>
+        <button class="btn btn-equals" data-action="equals">=</button>
+      </div>
+    </div>
+
+    <section class="info-panel">
+      <h2>☁️ Cloud Deployment Guide</h2>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <div>
+            <strong>AWS S3 Static Hosting</strong>
+            <p>Upload all files to an S3 bucket. Enable "Static website hosting" under bucket properties. Set index.html as root document.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <div>
+            <strong>GitHub Pages (Free)</strong>
+            <p>Push the folder to a GitHub repo. Go to Settings → Pages → Select branch → Save. Your app is live in seconds.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <div>
+            <strong>Netlify / Vercel</strong>
+            <p>Drag and drop the project folder into Netlify's dashboard or connect your repo to Vercel for instant deployment.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">04</span>
+          <div>
+            <strong>Google Cloud Storage</strong>
+            <p>Create a GCS bucket, upload files, set uniform public access, and add website configuration for index.html.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Mini Project · Web Application on Public Cloud · 2026</p>
+    <p>Files: <code>index.html</code> · <code>style.css</code> · <code>script.js</code> · <code>README.md</code></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

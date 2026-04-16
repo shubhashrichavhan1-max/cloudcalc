@@ -1,0 +1,360 @@
+/* ============================================
+   CloudCalc — Web Calculator
+   Mini Project: Cloud-Hosted Web Application
+   ============================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0a0c10;
+  --surface: #111318;
+  --surface2: #1a1d24;
+  --border: rgba(255,255,255,0.06);
+  --text: #f0f2f8;
+  --muted: #6b7280;
+  --accent: #5b8dee;
+  --accent2: #7c5ce8;
+  --op: #1e2330;
+  --op-hover: #262c3f;
+  --op-active: #5b8dee;
+  --equals: #5b8dee;
+  --equals-hover: #7aa3f5;
+  --num: #1c1f27;
+  --num-hover: #252930;
+  --func: #1a1d26;
+  --func-hover: #22263000;
+  --radius: 20px;
+  --btn-radius: 14px;
+  --shadow: 0 32px 80px rgba(0,0,0,0.6);
+  --glow: 0 0 60px rgba(91,141,238,0.12);
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ---- Background Effects ---- */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(91,141,238,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(91,141,238,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+.bg-glow {
+  position: fixed;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 600px;
+  background: radial-gradient(ellipse at center,
+    rgba(91,141,238,0.15) 0%,
+    rgba(124,92,232,0.08) 40%,
+    transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---- Header ---- */
+header {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 40px 20px 10px;
+}
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #5b8dee, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.tagline {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  margin-top: 4px;
+  letter-spacing: 0.05em;
+}
+
+/* ---- Main Layout ---- */
+main {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  padding: 30px 20px 40px;
+}
+
+/* ============ CALCULATOR ============ */
+.calculator {
+  width: 100%;
+  max-width: 360px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow), var(--glow);
+  overflow: hidden;
+  animation: slideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---- Display ---- */
+.display-wrapper {
+  padding: 28px 24px 18px;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(180deg, #0e1016 0%, var(--surface) 100%);
+  border-bottom: 1px solid var(--border);
+}
+.expression {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: right;
+  min-height: 18px;
+  letter-spacing: 0.02em;
+  transition: all 0.15s;
+}
+.display {
+  font-family: 'DM Mono', monospace;
+  font-size: 3rem;
+  font-weight: 500;
+  text-align: right;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  transition: all 0.1s;
+  word-break: break-all;
+  line-height: 1.1;
+  margin-top: 2px;
+}
+.display.shrink  { font-size: 2rem; }
+.display.shrink2 { font-size: 1.5rem; }
+.history-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(91,141,238,0.5);
+  text-align: right;
+  min-height: 14px;
+  margin-top: 4px;
+  letter-spacing: 0.05em;
+}
+
+/* ---- Buttons Grid ---- */
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 16px;
+}
+
+.btn {
+  height: 72px;
+  border: none;
+  border-radius: var(--btn-radius);
+  font-family: 'Syne', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.08s, background 0.12s, box-shadow 0.12s;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  background: rgba(255,255,255,0.08);
+  transition: opacity 0.15s;
+}
+.btn:hover::after { opacity: 1; }
+.btn:active { transform: scale(0.93); }
+.btn:active::after { opacity: 0.2; }
+
+/* Number buttons */
+.btn-num {
+  background: var(--num);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.btn-num:hover { background: var(--num-hover); }
+
+/* Function buttons (AC, +/-, %) */
+.btn-func {
+  background: var(--func);
+  color: #a0aec0;
+  border: 1px solid rgba(255,255,255,0.06);
+  font-size: 1rem;
+}
+.btn-func:hover { background: #20242e; color: var(--text); }
+
+/* Operator buttons */
+.btn-op {
+  background: var(--op);
+  color: var(--accent);
+  border: 1px solid rgba(91,141,238,0.15);
+  font-size: 1.4rem;
+}
+.btn-op:hover { background: var(--op-hover); }
+.btn-op.active {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(91,141,238,0.3);
+}
+
+/* Equals button */
+.btn-equals {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  font-size: 1.4rem;
+  border: none;
+  box-shadow: 0 6px 24px rgba(91,141,238,0.3);
+}
+.btn-equals:hover {
+  background: linear-gradient(135deg, #7aa3f5, #9b87f5);
+  box-shadow: 0 8px 30px rgba(91,141,238,0.45);
+}
+
+/* Wide 0 button */
+.btn-wide {
+  grid-column: span 2;
+  text-align: left;
+  padding-left: 26px;
+}
+
+/* ============ INFO PANEL ============ */
+.info-panel {
+  width: 100%;
+  max-width: 680px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 30px;
+  animation: slideUp 0.6s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.info-panel h2 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-bottom: 24px;
+  color: var(--text);
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+.step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.step:hover {
+  border-color: rgba(91,141,238,0.3);
+  transform: translateY(-2px);
+}
+.step-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--accent);
+  background: rgba(91,141,238,0.1);
+  border: 1px solid rgba(91,141,238,0.2);
+  border-radius: 6px;
+  padding: 3px 6px;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+.step strong {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.step p {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.6;
+  font-family: 'DM Mono', monospace;
+  font-weight: 300;
+}
+
+/* ============ FOOTER ============ */
+footer {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 0 20px 40px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-family: 'DM Mono', monospace;
+  line-height: 1.8;
+}
+footer code {
+  color: rgba(91,141,238,0.7);
+  background: rgba(91,141,238,0.07);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* ============ RIPPLE EFFECT ============ */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  background: rgba(255,255,255,0.12);
+  transform: scale(0);
+  animation: ripple 0.4s ease-out;
+  pointer-events: none;
+  margin-top: -40px;
+  margin-left: -40px;
+}
+@keyframes ripple {
+  to { transform: scale(3); opacity: 0; }
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 400px) {
+  .display { font-size: 2.4rem; }
+  .btn { height: 64px; font-size: 1.1rem; }
+  .calculator { max-width: 100%; }
+}
+@media (min-width: 700px) {
+  main { flex-direction: row; align-items: flex-start; justify-content: center; }
+  .calculator { position: sticky; top: 20px; }
+}
